@@ -1,0 +1,73 @@
+{% extends 'base_template.html' %}
+
+{% load static %}
+
+{% block head %}
+<style>
+	.card {
+		transition: .2s all;
+	}
+
+	.card:hover {
+		transform: scale(1.1);
+		box-shadow: 0 10px 30px #000;
+        z-index: 9999;
+	}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-10">
+            <h1 class="text-center">{{ shop.name }}</h1>
+            <br>
+            <p class="text-center">{{ shop.description }}</p>
+        </div>
+        <div class="col-12 col-md-2">
+            <img src="{% static shop.owner.photo.url %}" alt="Фото пользователя" class="col-12">
+            <a href="{% url 'blog' shop.owner.id %}" class="col-12">{{ shop.owner.first_name }} {{ shop.owner.last_name }}</a>
+        </div>
+    </div>
+    <hr>
+	<div class="row row-cols-1 row-cols-md-4">
+    {% for product in products %}
+    <div class="col-md-3 card-group">
+        <div class="card" style=" margin:15px;" >
+            <img src="{% static product.photo_filename %}" class="card-img-top" alt="..." height="200px">
+            <div class="card-body">
+                <div style="height: 70px; overflow: hidden">
+                    <h3 class="card-title" style="text-align: center;">{{ product.name }}</h3>
+                </div>
+                <hr>
+                <div style="float:left; padding-top:8px;">
+                    <div style="float:left; margin-right:10px;">
+                        <p>Цена: </p>
+                    </div>
+
+                    <div style="
+                        color: green; float:left;
+                        ">
+                        <big>{{ product.new_price }} грн.</big>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <a href="{% url 'product' product.id %}" class="btn btn-primary">Купить</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+	</div>
+</div>
+    <hr>
+    {% include "pagination/pagination.html" with page=products %}
+    <hr>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+
+    </script>
+{% endblock %}
